@@ -8,20 +8,53 @@
 module.exports = {
 
   attributes: {
+    
     project: {
-      collection: 'projects',
-      via: 'todos'
+      model: 'projects'
     },
 
     name: {
       type: 'string',
       required: true
-    }
+    },
+
+    done: {
+      type: 'boolean',
+      defaultsTo: false,
+      required: true
+    },
+
+    important: {
+      type: 'boolean',
+      defaultsTo: false,
+      required: true
+    },
+
   },
 
-  addTodo: (projectId, name, callback) => {
-    Todos.create({project: projectId, name: name}).exec((err, result) => {
+  createTodo: (projectId, data, callback) => {
+    Todos.create({
+      project: projectId,
+      name: data.name,
+      done: data.done,
+      important: data.important
+    }).exec((err, result) => {
       callback(err, result)
     })
-  }
+  },
+
+  updateTodo: (projectId, todoId, data, callback) => {
+    Todos.update({id: todoId}, data).exec((err, result) => {
+      callback(err, result)
+    })
+  },
+
+  deleteTodo: (projectId, todoId, callback) => {
+    Todos.destroy({id: todoId, project: projectId}).exec((err, result) => {
+      callback(err, result)
+    })
+  },
+
+
+
 };

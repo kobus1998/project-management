@@ -105,6 +105,31 @@ module.exports.policies = {
       'getCompanyMembers'
     ],
 
+    'createSoftware': [
+      'loggedIn',
+      'isNotInProject'
+    ],
+
+    'deleteSoftware': [
+      'loggedIn',
+      'isNotInProject'
+    ],
+
+    'createTodo': [
+      'loggedIn',
+      'isNotInProject'
+    ],
+
+    'changeStateTodo': [
+      'loggedIn',
+      'isNotInProject'
+    ],
+
+    'deleteTodo': [
+      'loggedIn',
+      'isNotInProject'
+    ],
+
     'createProjectPage': [
       'loggedIn',
       'getCompanyData'
@@ -113,6 +138,7 @@ module.exports.policies = {
     'createProject': [
       'loggedIn'
     ],
+
     'updateProject': [
       'loggedIn',
       'isNotInProject'

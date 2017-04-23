@@ -30,11 +30,13 @@
               <span>users</span>
             </a>
           </li>
+          <% if (userTitle === 'manager' || userTitle === 'project manager') { %>
           <li>
             <a id="toggle-settings-tab">
               <span>settings</span>
             </a>
           </li>
+          <% } %>
         </ul>
       </div>
 
@@ -77,23 +79,110 @@
           </div>
         </div>
       </div>
+
       <div id="software-tab" class="tab-content">
+
+        <h5 class="title is-5">software</h5>
+        <% if (project.software.length > 0) { %>
+
+          <table class="table table-striped">
+            <thead>
+              <th>#</th>
+              <th>name</th>
+              <th>description</th>
+              <th>version</th>
+              <% if (userTitle === 'manager' || userTitle === 'project manager') { %>
+                <th></th>
+              <% } %>
+            </thead>
+            <tbody>
+
+              <% for (var i = 0; i < project.software.length; i++) { var rowCount = i + 1 %>
+                <tr>
+                  <td><%= rowCount %></td>
+                  <td><%= project.software[i].name %></td>
+                  <td><%= project.software[i].desc %></td>
+                  <td><%= project.software[i].version %></td>
+                  <% if (userTitle === 'manager' || userTitle === 'project manager') { %>
+                    <td>
+
+                    <form class="" action="/projects/software/delete/<%= project.id %>/<%= project.software[i].id %>" method="post">
+                      <button type="submit" class="button is-danger"><i class="fa fa-trash"></i></button>
+                    </form>
+
+                    </td>
+                  <% } %>
+                </tr>
+              <% } %>
+
+            </tbody>
+          </table>
+        <% } else { %>
+          <div class="notification">
+            <p><i class="fa fa-cogs paddingRight"></i> You dont have any software at the moment</p>
+          </div>
+        <% } %>
 
       </div>
 
       <div id="todo-tab" class="tab-content">
-        <form class="" action="" method="post">
+        <form class="" action="/projects/todos/create/<%= project.id %>" method="post">
           <label for="name" class="label">add todo</label>
-          <div class="field has-addons">
+          <div class="field is-grouped">
+            <div class="field">
+              <label class="label lbl-inline">
+                <p class="control">
+                    <input type="text" name="name" class="input"></p>
+              </label>
 
-            <p class="control">
-              <input type="text" name="name" class="input">
-            </p>
-            <p class="control">
-              <button type="submit" class="button is-info">add</button>
-            </p>
+            </div>
+            <div class="field">
+              <label class="checkbox lbl-inline">
+                  <p class="control">
+                    <input type="checkbox" name="important" value="true">
+                    important</p>
+              </label>
+            </div>
+            <div class="field">
+              <p class="control">
+                <button type="submit" class="button is-info">add</button>
+              </p>
+            </div>
           </div>
+
+
+
         </form>
+
+
+
+        <div class="brk"></div>
+
+        <% if (project.todos.length > 0) { %>
+          <ul class="list">
+          <% for (var i = 0; i < project.todos.length; i++) { %>
+            <li class="list-item" style="display: flex; flex-direction: row;">
+              <form action="/projects/todos/changeSate/<%= project.id %>/<%= project.todos[i].id %>" method="post">
+                  <div class="field">
+                    <label class="checkbox">
+                        <p class="control">
+                          <input onClick="this.form.submit();" type="checkbox" name="done" value="true" <% if (project.todos[i].done) { %>checked<% } %>></p>
+                          <%= project.todos[i].name %> <% if (project.todos[i].important && !project.todos[i].done) { %> <i class="fa fa-exclamation"></i> <% } %>
+                    </label>
+                  </div>
+                </form>
+                <form style="flex-grow: 1; display: flex; justify-content: flex-end" class="" action="/projects/todos/delete/<%= project.id %>/<%= project.todos[i].id %>" method="post">
+                  <button type="submit" class="button is-danger " style="flex-grow"><i class="fa fa-trash"></i></button>
+                </form>
+              </li>
+          <% } %>
+          </ul>
+        <% } else { %>
+          <div class="notification">
+            <p><i class="fa fa-cogs paddingRight"></i> You dont have any todos at the moment</p>
+          </div>
+        <% } %>
+
       </div>
 
 
@@ -132,8 +221,14 @@
             </tbody>
           </table>
 
+        <% } else { %>
+          <div class="notification">
+            <p><i class="fa fa-cogs paddingRight"></i> There are no users in this project</p>
+          </div>
         <% } %>
       </div>
+
+      <% if (userTitle === 'manager' || userTitle === 'project manager') { %>
 
       <div id="settings-tab" class="tab-content">
 
@@ -152,7 +247,7 @@
           <div style="flex-grow: 1;">
 
             <div id="new-software" class="settings-content">
-              <form class="" action="" method="post">
+              <form class="" action="/projects/software/create/<%= project.id %>" method="post">
                 <h5 class="title is-5">add software</h5>
                 <div class="field">
                   <label for="name" class="label">name</label>
@@ -253,17 +348,11 @@
                 <br>
                 <br>
               </form>
-
             </div>
-
-            <!--
-
-          -->
           </div>
         </div>
-
-
       </div>
+      <% } %>
     </div>
 
   </div>

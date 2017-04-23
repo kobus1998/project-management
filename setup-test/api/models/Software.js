@@ -21,6 +21,23 @@ module.exports = {
     project: {
       model: 'projects'
     }
+  },
 
+  createSoftware: (projectId, data, callback) => {
+    Software.create({
+      name: data.name,
+      desc: data.desc,
+      version: data.version,
+      project: projectId
+    }).exec((err, result) => {
+      callback(err, result)
+    })
+  },
+
+  deleteSoftware: (projectId, softwareId, callback) => {
+    Software.destroy({project: projectId, id: softwareId}).exec((err, result) => {
+      callback(err, result)
+    })
   }
+
 };

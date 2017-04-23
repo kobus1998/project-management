@@ -149,4 +149,16 @@ module.exports.routes = {
   // add user to project function
   'POST /projects/adduser/:projectId/:userId' : 'ProjectsController.addUserToProject',
 
+  // create software project function
+  'POST /projects/software/create/:projectId': 'ProjectsController.createSoftware',
+  // delete software project function
+  'POST /projects/software/delete/:projectId/:softwareId': 'ProjectsController.deleteSoftware',
+
+  // create todo project function
+  'POST /projects/todos/create/:projectId': 'ProjectsController.createTodo',
+  // change state todo project function
+  'POST /projects/todos/changeSate/:projectId/:todoId': 'ProjectsController.changeStateTodo',
+  // delete todo project function
+  'POST /projects/todos/delete/:projectId/:todoId': 'ProjectsController.deleteTodo',
+
 };

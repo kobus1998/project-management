@@ -79,6 +79,79 @@ module.exports = {
 				res.ok('user has been added to the project')
 			}
 		})
+	},
+
+	createSoftware: (req, res) => {
+		let projectId = req.params.projectId
+		let data = req.body
+		Software.createSoftware(projectId, {
+			name: data.name,
+			version: data.version,
+			desc: data.desc
+		}, (err, result) => {
+			if (err) console.log(err)
+			res.redirect('back')
+		})
+	},
+
+	deleteSoftware: (req, res) => {
+		let projectId = req.params.projectId
+		let softwareId = req.params.softwareId
+		Software.deleteSoftware(projectId, softwareId, (err, result) => {
+			if (err) console.log(err)
+			res.redirect('back')
+		})
+	},
+
+	createTodo: (req, res) => {
+		let projectId = req.params.projectId
+		let data = req.body
+
+		if (typeof data.important !== 'undefined') {
+			data.important = true
+		}
+
+		Todos.createTodo(projectId, {
+			name: data.name,
+      done: data.done,
+      important: data.important
+		}, (err, result) => {
+			if (err) console.log(err)
+			res.redirect('back')
+		})
+
+	},
+
+	changeStateTodo: (req, res) => {
+		let projectId = req.params.projectId
+		let todoId = req.params.todoId
+		let data = req.body
+
+		let donePromise = new Promise((resolve, reject) => {
+			if (data.done === 'true') {
+				data.done = true
+				resolve()
+			} else {
+				data.done = false
+				resolve()
+			}
+		}).then(() => {
+			Todos.updateTodo(projectId, todoId, {done: data.done}, (err, result) => {
+				if (err) console.log(err)
+				res.redirect('back')
+			})
+		})
+
+	},
+
+	deleteTodo: (req, res) => {
+		let projectId = req.params.projectId
+		let todoId = req.params.todoId
+
+		Todos.deleteTodo(projectId, todoId, (err, result) => {
+			if (err) console.log(err)
+			res.redirect('back')
+		})
 	}
 
 };

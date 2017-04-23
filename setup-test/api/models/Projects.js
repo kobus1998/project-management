@@ -71,12 +71,12 @@ module.exports = {
 
   },
 
-  types:{
-    isInt:function(value){
-      if(typeof value==='number' && value=== Math.floor(value)){
+  types: {
+    isInt: (value) => {
+      if (typeof value ==='number' && value === Math.floor(value)) {
         return true;
       }
-      if(!isNaN(1*value)){
+      if (!isNaN(1*value)) {
         return true;
       }
       return false;
@@ -90,7 +90,7 @@ module.exports = {
   },
 
   getProjectData: (projectId, callback) => {
-    Projects.find({id: projectId}).populate('customer').populate('users', {where: {active: true}}).populate('todos').populate('software').exec((err, result) => {
+    Projects.find({id: projectId}).populate('customer').populate('users', {where: {active: true}}).populate('todos', {sort: {done: false}}).populate('software').exec((err, result) => {
       callback(err, result)
     })
   },
