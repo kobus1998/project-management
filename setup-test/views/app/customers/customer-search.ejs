@@ -1,0 +1,115 @@
+<div class="" style="flex: 1">
+
+  <% include ../../partials/companySidebar %>
+
+  <div class=" paddingBottom">
+
+    <div class="notification is-info">
+      <h3 class="title is-3">Customers</h3>
+    </div>
+
+    <div class="form-content">
+
+      <form class="form" action="" method="get">
+        <input type="hidden" name="page" value="1">
+
+        <div class="field">
+          <p class="control">
+            <label class="label">search</label>
+            <input type="search" name="query" class="input" value="<% if (typeof req.allParams().query !== 'undefined' && req.allParams().query.length > 0) { %><%= req.allParams().query %><% } %>">
+          </p>
+        </div>
+
+        <div class="field is-grouped">
+
+          <div class="field">
+            <label class="label lbl-inline">active
+            <p class="control select">
+              <select class="" name="active">
+                <option value=""></option>
+                <option value="true" <% if (typeof req.allParams().active !== 'undefined' && req.allParams().active === 'true') { %> selected <% } %>>
+                  yes</option>
+                <option value="false" <% if (typeof req.allParams().active !== 'undefined' && req.allParams().active === 'false') { %> selected <% } %>>
+                  no</option>
+              </select>
+            </p></label>
+          </div>
+
+          <div class="field">
+            <label class="label lbl-inline">sort by name
+            <p class="control select">
+              <select class="" name="sortName">
+                <option value=""></option>
+                <option value="ASC" <% if (typeof req.allParams().sortName !== 'undefined' && req.allParams().sortName === 'ASC') { %> selected <% } %>>
+                  a - z</option>
+                <option value="DESC" <% if (typeof req.allParams().sortName !== 'undefined' && req.allParams().sortName === 'DESC') { %> selected <% } %>>
+                  z - a</option>
+              </select>
+            </p></label>
+          </div>
+
+        </div>
+
+        <div class="field">
+          <p class="control">
+            <button type="submit" class="button is-info">search</button>
+          </p>
+        </div>
+
+      </form>
+
+      <div class="brk"></div>
+
+      <div class="content">
+      <% if (filter.length > 0 && typeof filter !== 'undefined') { %>
+        <p><%= countPages %> results</p>
+
+        <table>
+          <thead>
+            <th>#</th>
+            <th>name</th>
+            <th>company</th>
+            <th>active</th>
+          </thead>
+          <tbody>
+          <% for (var i = 0; i < filter.length; i++) { %>
+            <% var rowCount = i + 1 %>
+            <tr>
+              <td><%= rowCount %></td>
+              <td><a href="/customer/view/<%= filter[i].company %>/<%= filter[i].id %>"><%= filter[i].name %></a></td>
+              <td><%= filter[i].companyName %></td>
+              <td><% if (filter[i].active === 'true') { %>no<%} else { %>yes<% } %></td>
+            </tr>
+          <% } %>
+
+          </tbody>
+        </table>
+
+      <% } else { %>
+        no result
+      <% } %>
+      </div>
+
+      <form method="get">
+
+        <input type="hidden" name="query" value="<% if (typeof req.allParams().query !== 'undefined') { %><%= req.allParams().query %><% } %>">
+
+        <nav class="pagination">
+          <ul class="pagination-list">
+            <% for (var i = 0; i < countPages / 15; i++) { %>
+
+              <li>
+                <a><input type="submit" name="page" value="<%= i + 1 %>" class="pagination-link"></a>
+              </li>
+
+            <% } %>
+
+
+          </ul>
+        </nav>
+      </form>
+
+    </div>
+
+  </div>
+</div>

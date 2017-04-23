@@ -1,0 +1,36 @@
+<div style="flex: 1">
+  <% include ../../partials/companySidebar %>
+
+  <div>
+
+    <div class="notification is-info">
+      <h3 class="title is-3"><%= customer.name %></h3>
+      <p class="subtitle"><%= customer.companyName %></p>
+    </div>
+
+    <div>
+
+      <div class="form-content">
+        <h3 class="title is-4">Projects</h3>
+
+        <% if (customer.projects.length > 0) { %>
+          <ul class="list">
+            <% customer.projects.forEach(function(project) { %>
+              <li class="list-item"><a href="/project/view/<%= company.id %>/<%= customer.id %>/<%= project.id %>"><%= project.name %></a>  <span class="is-pulled-right">deadline: <%= dateFormat(project.deadline, 'mmmm dd yyyy') %></span></li>
+            <% }) %>
+          </ul>
+        <% } else {%>
+          <div class="notification">
+            <p><i class="fa fa-cogs paddingRight"></i> customer does not have projects yet</p>
+          </div>
+        <% } %>
+      </div>
+
+
+
+    </div>
+
+
+
+  </div>
+</div>

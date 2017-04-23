@@ -1,0 +1,30 @@
+<nav class="nav">
+  <div class="container">
+    <div class="nav-left">
+      <div class="nav-item">
+        <% if (typeof req.session.userId === 'undefined') { %>
+          <a href="/" class="title is-3">Organise your shit m8</a>
+        <% } %>
+
+      </div>
+    </div>
+
+
+
+    <div class="nav-right nav-menu">
+      <% if (typeof req.session.userId === 'undefined') { %>
+        <a href="/" class="nav-item">home</a>
+        <a href="/login" class="nav-item">login</a>
+        <a href="/register" class="nav-item">register</a>
+      <% } else { %>
+        <a href="/dashboard" class="nav-item">dashboard</a>
+        <a class="nav-item">
+          <form class="" action="/auth/logout" method="post">
+            <button type="submit" class="button is-danger">logout</button>
+          </form>
+        </a>
+      <% } %>
+    </div>
+
+  </div>
+</nav>

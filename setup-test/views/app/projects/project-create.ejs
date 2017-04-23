@@ -1,0 +1,70 @@
+<div style="flex: 1">
+
+  <% include ../../partials/companySidebar %>
+
+  <div>
+
+    <div class="notification is-info">
+      <h3 class="title is-3">select user and create project</h3>
+    </div>
+
+    <div class="form-content">
+
+      <form action="/projects/create" method="post">
+        <input type="hidden" name="companyId" value="<%= company.id %>">
+        <div class="field">
+          <label for="customer" class="label">customer</label>
+          <p class="control">
+            <span class="select">
+              <select name="customer" class="input">
+                <option></option>
+                <% for(var i = 0; i < company.customers.length; i++) { %>
+                  <option value="<%= company.customers[i].id %>"><%= company.customers[i].name %> - <%= company.customers[i].companyName %></option>
+                <% } %>
+              </select>
+            </span>
+          </p>
+        </div>
+        <div class="field">
+          <label for="name">project name</label>
+          <p class="control">
+            <input type="text" name="name" class="input">
+          </p>
+        </div>
+
+        <div class="field">
+          <label for="desc">description</label>
+          <p class="control">
+            <textarea class="textarea" name="desc" rows="8" cols="80"></textarea>
+          </p>
+        </div>
+
+        <div class="field is-horizontal">
+          <div class="field-body">
+            <div class="field">
+              <label for="price">price</label>
+              <p class="control">
+                <input type="number" name="price" class="input">
+              </p>
+            </div>
+            <div class="field">
+              <label for="deadline">deadline</label>
+              <p class="control">
+                <input type="date" name="deadline" class="input">
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <p class="control">
+            <button type="submit" class="button is-info">create</button>
+          </p>
+        </div>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,135 @@
+<div class="columns" style="flex: 1">
+
+  <% include ../partials/sidebar %>
+
+  <div class="column paddingTop paddingRight">
+
+    <div class="notification is-info">
+      <p>Logged in as <%= user.email %></p>
+      <p>Role is <%= user.role %></p>
+    </div>
+
+    <div class="tile is-ancestor padding">
+      <div class="tile is-vertical is-8">
+        <div class="tile">
+          <div class="tile is-parent is-vertical">
+
+            <article class="tile is-child">
+              <h3 class="title is-3">Companies</h3>
+              <% if(user.companies.length > 0) { %>
+              <ul class="list">
+              <% for(var i = 0; i < user.companies.length; i++) { %>
+                <li class="list-item"><a href="/company/view/<%= user.companies[i].id %>"><%= user.companies[i].name %></a></li>
+              <% } %>
+              </ul>
+              <% } else { %>
+                <div class="notification">
+                  <p><i class="fa fa-cogs paddingRight"></i> You are not yet in a company yet</p>
+                </div>
+              <% } %>
+            </article>
+
+            <article class="tile is-child">
+              <h3 class="title is-3">Active projects</h3>
+              <% if(user.projects.length > 0) { %>
+              <ul class="list">
+              <% for(var i = 0; i < user.projects.length; i++) { %>
+                <% if (user.projects[i].status === 'active') { %>
+                  <% console.log(user.projects[i].customer) %>
+                  <li class="list-item"><a href="/project/view/<%= user.projects[i].company %>/<%= user.projects[i].customer %>/<%= user.projects[i].id %>"><%= user.projects[i].name %></a></li>
+                <% } %>
+              <% } %>
+              </ul>
+              <% } else { %>
+                <div class="notification">
+                  <p><i class="fa fa-cogs paddingRight"></i> You dont have any projects yet</p>
+                </div>
+              <% } %>
+            </article>
+
+          </div>
+          <div class="tile is-parent">
+            <article class="tile is-child">
+              <form class="" action="/users/reminders/create" method="post">
+                <input type='hidden' name='_csrf' value='<%= _csrf %>'>
+                <h3 class="title is-3">Reminders</h3>
+                <div class="field has-addons paddingBottom">
+                  <p class="control fullWidth">
+                    <input type="text" class="input" name="name">
+                  </p>
+                  <p class="control">
+                    <button class="button is-info" type="submit"><i class="fa fa-plus"></i></button>
+                  </p>
+                </div>
+              </form>
+
+              <% if(user.reminders.length > 0) { %>
+              <ul class="list">
+              <% for(var i = 0; i < user.reminders.length; i++) { %>
+                <li class="list-item" style="display: flex; flex-direction: row;">
+                  <%= user.reminders[i].name %>
+                  <span style="flex-grow: 1; display: flex; justify-content: flex-end;">
+                    <form class="" action="/users/reminders/delete/<%= user.reminders[i].id %>" method="post">
+                      <p class="field">
+                        <button type="submit" class="button is-danger">
+                          <span class="icon is-small">
+                            <i class="fa fa-trash"></i>
+                          </span>
+                        </button>
+                      </p>
+                    </form>
+                  </span>
+                </li>
+              <% } %>
+              </ul>
+              <% } else { %>
+                <div class="notification">
+                  <p><i class="fa fa-cogs paddingRight"></i> You dont have any reminders yet</p>
+                </div>
+              <% } %>
+
+
+
+            </article>
+          </div>
+        </div>
+        <div class="tile is-parent">
+          <article class="tile is-child">
+            <form class="" action="index.html" method="post">
+              <h3 class="title is-3"></h3>
+              <div class="field has-addons">
+                <p class="control fullWidth">
+                  <input type="search" name="search" class="input" placeholder="search anything">
+                </p>
+                <p class="control">
+                  <button type="submit" class="button is-info"><i class="fa fa-search"></i></button>
+                </p>
+              </div>
+
+            </form>
+          </article>
+        </div>
+      </div>
+      <div class="tile is-parent">
+        <article class="tile is-child box">
+          <div class="content">
+            <h3 class="title is-3">news</h3>
+            <div class="news-article">
+              <h5 class="title is-5">Updated this and that</h5>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+  </div>
+
+</div>

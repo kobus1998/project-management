@@ -1,0 +1,270 @@
+<div style="flex: 1">
+
+    <% include ../../partials/companySidebar %>
+  <div>
+
+    <div class="notification is-info">
+      <h3 class="title is-3" style="margin-bottom: .5rem"><%= project.name %></h3>
+      <div class="content">
+        <p><%= project.desc %></p>
+      </div>
+      <div class="tabs">
+        <ul>
+          <li>
+            <a id="toggle-overview-tab">
+              <span>overview</span>
+            </a>
+          </li>
+          <li>
+            <a id="toggle-software-tab">
+              <span>software</span>
+            </a>
+          </li>
+          <li>
+            <a id="toggle-todo-tab">
+              <span>to do</span>
+            </a>
+          </li>
+          <li>
+            <a id="toggle-users-tab">
+              <span>users</span>
+            </a>
+          </li>
+          <li>
+            <a id="toggle-settings-tab">
+              <span>settings</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="form-content">
+      <div id="overview-tab" class="tab-content tab-content-active">
+        <div class="columns">
+          <div class="column">
+            <h5 class="title is-5">General</h5>
+            <ul class="list">
+              <li class="list-item"><b>Price:</b> &euro; <%= project.price %></li>
+              <li class="list-item"><b>Deadline:</b> <% if (Date.now() > project.deadline) {%><%= dateFormat(project.deadline, 'mmmm dd yyyy') %> <span class="help is-danger is-pulled-right">Overdue</span> <%} else {%> <%= dateFormat(project.deadline, 'mmmm dd yyyy') %> <%} %> </li>
+              <li class="list-item"><b>Paid:</b> <% if (project.paid === false){%> no <%} else {%> yes <%} %></li>
+            </ul>
+            <h5 class="title is-5">Customer</h5>
+            <ul class="list">
+              <li class="list-item"><b>Customer:</b> <%= project.customer.name %></li>
+              <li class="list-item"><b>Company:</b> <%= project.customer.companyName %></li>
+            </ul>
+          </div>
+
+
+
+          <div class="column">
+            <div class="content paddingLeft">
+              <h5 class="title is-5">Users</h5>
+              <% if (project.users.length > 0) { %>
+                <ul class="list" style="list-style: none; margin-left:0;">
+                  <% for (var i = 0; i < project.users.length; i++) { %>
+                    <li class="list-item"><%= project.users[i].email %></li>
+                  <% } %>
+                </ul>
+              <% } else { %>
+                <div class="notification">
+                  <p><i class="fa fa-cogs paddingRight"></i> This project has no users yet</p>
+                </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="software-tab" class="tab-content">
+
+      </div>
+
+      <div id="todo-tab" class="tab-content">
+        <form class="" action="" method="post">
+          <label for="name" class="label">add todo</label>
+          <div class="field has-addons">
+
+            <p class="control">
+              <input type="text" name="name" class="input">
+            </p>
+            <p class="control">
+              <button type="submit" class="button is-info">add</button>
+            </p>
+          </div>
+        </form>
+      </div>
+
+
+
+      <div id="users-tab" class="tab-content">
+        <h5 class="title is-5">users</h5>
+        <% if (project.users.length > 0) { %>
+
+          <table class="table table-striped">
+            <thead>
+              <th>#</th>
+              <th>user</th>
+              <th>&nbsp;</th>
+            </thead>
+            <tbody>
+              <% for (var i = 0; i < project.users.length; i++) { var rowCount = i + 1 %>
+                <% if (project.users[i].id !== req.session.userId) { %>
+                  <tr>
+                    <td><%= rowCount %></td>
+                    <td><%= project.users[i].email %></td>
+                    <td><% if (userTitle === 'manager' || userTitle === 'project manager') { %>
+                      <form class="" action="" method="post">
+                        <button type="submit" class="button is-danger">
+                          <span class="icon is-small">
+                            <i class="fa fa-sign-out"></i>
+                          </span>
+                          <span>kick</span>
+                        </button>
+                      </form>
+                      <% } %>
+                    </td>
+                  </tr>
+                <% } %>
+              <% } %>
+
+            </tbody>
+          </table>
+
+        <% } %>
+      </div>
+
+      <div id="settings-tab" class="tab-content">
+
+
+        <div class="settings-wrapper" style="display: flex; flex-direction: row;">
+          <div class="settings-sidebar padding" style="max-width: 300px;">
+            <aside class="menu">
+              <p class="menu-label">Settings</p>
+              <ul class="menu-list">
+                <li id="toggle-project-settings"><a>settings</a></li>
+                <li id="toggle-new-software"><a>add software</a></li>
+                <li id="toggle-invite-users"><a>invite users</a></li>
+              </ul>
+            </aside>
+          </div>
+          <div style="flex-grow: 1;">
+
+            <div id="new-software" class="settings-content">
+              <form class="" action="" method="post">
+                <h5 class="title is-5">add software</h5>
+                <div class="field">
+                  <label for="name" class="label">name</label>
+                  <p class="control">
+                    <input type="text" name="name" class="input">
+                  </p>
+                </div>
+                <div class="field">
+                  <label for="version" class="label">version</label>
+                  <p class="control">
+                    <input type="text" name="version" class="input">
+                  </p>
+                </div>
+                <div class="field">
+                  <label for="desc" class="label">description</label>
+                  <p class="control">
+                    <textarea class="textarea" name="desc" rows="8" cols="80"></textarea>
+                  </p>
+                </div>
+                <div class="field">
+                  <p class="control">
+                    <button type="submit" class="button is-info">create</button>
+                  </p>
+                </div>
+              </form>
+            </div>
+
+            <div id="invite-users" class="settings-content">
+              invite users
+            </div>
+
+            <div id="project-settings" class="settings-content settings-content-active">
+              <h5 class="title is-5">project settings</h5>
+
+              <form class="" action="/projects/update/<%= project.id %>" method="post">
+                <input type="hidden" name="customerId" value="<%= project.customer %>">
+                <input type="hidden" name="companyId" value="<%= project.company %>">
+
+                <div class="field">
+                  <label for="name" class="label">name</label>
+                  <p class="control">
+                    <input type="text" name="name" class="input" value="<%= project.name %>">
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label for="desc" class="label">description</label>
+                  <p class="control">
+                    <textarea name="desc" class="textarea" rows="8" cols="80"><%= project.desc %></textarea>
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label for="price" class="label">price</label>
+                  <p class="control">
+                    <input class="input" type="number" name="price" value="<%= project.price %>" placeholder="&euro;">
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label for="deadline" class="label">deadline</label>
+                  <p class="control">
+                    <input class="input" type="date" name="deadline" value="<%= dateFormat(project.deadline,'yyyy-mm-dd') %>">
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label for="paid" class="label">paid</label>
+                  <p class="control">
+                    <label class="radio">
+                      <input type="radio" value="1" name="paid" <% if (project.paid === true) { %> checked <% } %>>
+                      Yes
+                    </label>
+                    <label class="radio">
+                      <input type="radio" value="0" name="paid" <% if (project.paid === false) { %> checked <% } %>>
+                      No
+                    </label>
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label for="status" class="label">status</label>
+                  <p class="control select">
+                    <select class="" name="status">
+                      <option value="active" <% if (project.status === 'active') { %> selected <% } %>>active</option>
+                      <option value="stopped" <% if (project.status === 'stopped') { %> selected <% } %>>stopped</option>
+                      <option value="done" <% if (project.status === 'done') { %> selected <% } %>>done</option>
+                    </select>
+                  </p>
+                </div>
+
+                <div class="field">
+                  <p class="control">
+                    <button type="submit" class="button is-info">edit</button>
+                  </p>
+                </div>
+                <br>
+                <br>
+                <br>
+              </form>
+
+            </div>
+
+            <!--
+
+          -->
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+</div>

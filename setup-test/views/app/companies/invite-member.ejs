@@ -1,0 +1,54 @@
+<div style="flex: 1">
+
+  <% include ../../partials/companySidebar %>
+
+  <div class="">
+    <div class="notification is-info">
+      <h3 class="title is-3">Invite member</h3>
+    </div>
+    <div class="form-content">
+
+      <form method="get">
+        <div class="field has-addons">
+          <p class="control">
+            <input type="search" name="s" class="input">
+          </p>
+          <p class="control">
+            <button type="submit" class="button is-info">
+              <span class="icon is-small">
+                <i class="fa fa-search"></i>
+              </span>
+              <span>search email</span>
+            </button>
+          </p>
+        </div>
+      </form>
+      <% if (typeof req.allParams()['s'] !== 'undefined' && req.allParams()['s'].length > 0) { %>
+        <ul class="list paddingTop">
+          <% for(var i = 0; i < search.length; i++) { %>
+            <% if (search[i].id !== req.session.userId) { %>
+              <li class="list-item" style="display: flex; flex-direction: row">
+                <span><%= search[i].email %></span>
+                <form style="flex-grow: 1; display: flex; justify-content: flex-end" action="/companies/adduser/<%= company.id %>/<%= search[i].id %>" method="post">
+                  <button type="submit" class="button is-info">
+                    <span>invite</span>
+                    <span class="icon is-small">
+                      <i class="fa fa-user-plus"></i>
+                    </span>
+                  </button>
+                </form>
+              </li>
+            <% } %>
+          <% } %>
+
+        </ul>
+      <% } else { %>
+        <p>nothing found</p>
+      <% } %>
+
+
+
+    </div>
+
+  </div>
+</div>

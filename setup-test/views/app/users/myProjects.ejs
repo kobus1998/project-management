@@ -1,0 +1,36 @@
+<div class="" style="flex: 1">
+
+  <% include ../../partials/sidebar %>
+
+  <div class=" paddingBottom">
+
+    <div class="notification is-info">
+      <h3 class="title is-3">Projects</h3>
+    </div>
+
+
+
+    <div class="form-content">
+      <% if(user.projects.length > 0) { %>
+      <ul class="list">
+      <% for(var i = 0; i < user.projects.length; i++) { %>
+        <% if (user.projects[i].status === 'active') { %>
+          <% console.log(user.projects[i].customer) %>
+          <li class="list-item">
+            <a href="/project/view/<%= user.projects[i].company %>/<%= user.projects[i].customer %>/<%= user.projects[i].id %>">
+              <%= user.projects[i].name %>
+              <span class="is-pulled-right"><%= dateFormat(user.projects[i].deadline, 'mmmm dd yyyy') %></span>
+            </a>
+          </li>
+        <% } %>
+      <% } %>
+      </ul>
+      <% } else { %>
+        <div class="notification">
+          <p><i class="fa fa-cogs paddingRight"></i> You dont have any projects yet</p>
+        </div>
+      <% } %>
+    </div>
+
+  </div>
+</div>

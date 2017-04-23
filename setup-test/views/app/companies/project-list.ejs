@@ -1,0 +1,154 @@
+<div class="" style="flex: 1">
+
+  <% if (typeof req.query.page === 'undefined') { %>
+    <script>
+      $(location).attr('href', window.location.href + '?page=1')
+    </script>
+  <% } %>
+
+  <% include ../../partials/companySidebar %>
+
+  <div class=" paddingBottom">
+
+    <div class="notification is-info">
+      <h3 class="title is-3">Projects</h3>
+    </div>
+
+    <div class="form-content">
+
+      <form class="form" action="" method="get">
+        <input type="hidden" name="page" value="1">
+        <div class="field">
+          <p class="control">
+            <label class="label">search</label>
+            <input type="search" name="query" class="input" value="<% if (typeof req.allParams().query !== 'undefined' && req.allParams().query.length > 0) { %><%= req.allParams().query %><% } %>">
+          </p>
+        </div>
+
+        <div class="field is-grouped">
+
+          <div class="field">
+            <label class="label lbl-inline">status
+            <p class="control select">
+              <select name="status">
+                <option></option>
+                <option value="active" <% if (typeof req.allParams().status !== 'undefined' && req.allParams().status === 'active') { %> selected <% } %>>
+                  active</option>
+                <option value="stopped" <% if (typeof req.allParams().status !== 'undefined' && req.allParams().status === 'stopped') { %> selected <% } %>>
+                  stopped</option>
+                <option value="done" <% if (typeof req.allParams().status !== 'undefined' && req.allParams().status === 'done') { %> selected <% } %>>done</option>
+              </select></label>
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label lbl-inline">paid
+            <p class="control select">
+              <select name="paid">
+                <option></option>
+                <option value="true" <% if (typeof req.allParams().paid !== 'undefined' && req.allParams().paid === 'true') { %> selected <% } %>>
+                  paid</option>
+                <option value="false" <% if (typeof req.allParams().paid !== 'undefined' && req.allParams().paid === 'false') { %> selected <% } %>>
+                  not paid</option>
+              </select></label>
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label lbl-inline">price
+            <p class="control select">
+              <select class="" name="price">
+                <option value=""></option>
+                <option value="ASC" <% if (typeof req.allParams().price !== 'undefined' && req.allParams().price === 'ASC') { %> selected <% } %>>
+                  low to high</option>
+                <option value="DESC" <% if (typeof req.allParams().price !== 'undefined' && req.allParams().price === 'DESC') { %> selected <% } %>>
+                  high to low</option>
+              </select></label>
+            </p>
+          </div>
+
+          <div class="field">
+            <label class="label lbl-inline">deadline
+            <p class="control select">
+              <select class="" name="deadline">
+                <option value=""></option>
+                <option value="ASC" <% if (typeof req.allParams().deadline !== 'undefined' && req.allParams().deadline === 'ASC') { %> selected <% } %>>
+                  young to old</option>
+                <option value="DESC" <% if (typeof req.allParams().deadline !== 'undefined' && req.allParams().deadline === 'DESC') { %> selected <% } %>>
+                  old to young</option>
+              </select>
+            </p></label>
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <p class="control">
+            <button type="submit" class="button is-info">search</button>
+          </p>
+        </div>
+
+      </form>
+      <div class="brk"></div>
+      <div class="content">
+      <% if (filter.length > 0 && typeof filter !== 'undefined') { %>
+        <p><%= countPages %> results</p>
+        <table>
+          <thead>
+            <th>#</th>
+            <th>project</th>
+            <th>paid</th>
+            <th>price</th>
+            <th>status</th>
+            <th>deadline</th>
+          </thead>
+          <tbody>
+            <% for (var i = 0; i < filter.length; i++) { %>
+              <% var rowCount = i + 1 %>
+              <tr>
+                <td><%= rowCount %></td>
+                <td><a href="/project/view/<%= filter[i].company %>/<%= filter[i].customer %>/<%= filter[i].id %>"><%= filter[i].name %></a></td>
+                <td><% if (filter[i].paid === true) { %> yes <% } else { %> no <% }  %></td>
+                <td>&euro; <%= filter[i].price %></td>
+                <td><%= filter[i].status %></td>
+                <td><%= dateFormat(filter[i].deadline, 'mmmm dd yyyy') %></td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      <% } else { %>
+        no result
+      <% } %>
+      </div>
+
+
+
+      <form method="get">
+
+        <input type="hidden" name="query" value="<% if (typeof req.allParams().query !== 'undefined') { %><%= req.allParams().query %><% } %>">
+        <input type="hidden" name="status" value="<% if (typeof req.query.status !== 'undefined') { %><%= req.query.status %><% } %>">
+        <input type="hidden" name="paid" value="<% if (typeof req.query.paid !== 'undefined') { %><%= req.query.paid %><% } %>">
+        <input type="hidden" name="price" value="<% if (typeof req.query.price !== 'undefined') { %><%= req.query.price %><% } %>">
+        <input type="hidden" name="deadline" value="<% if (typeof req.query.deadline !== 'undefined') { %><%= req.query.deadline %><% } %>">
+
+
+        <nav class="pagination">
+          <ul class="pagination-list">
+            <% for (var i = 0; i < countPages / 15; i++) { %>
+
+              <li>
+                <a><input type="submit" name="page" value="<%= i + 1 %>" class="pagination-link"></a>
+              </li>
+
+            <% } %>
+
+
+          </ul>
+        </nav>
+      </form>
+    </div>
+
+
+
+  </div>
+
+</div>

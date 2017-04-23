@@ -1,0 +1,21 @@
+<div style="flex: 1">
+
+  <% include ../../partials/companySidebar %>
+
+  <div>
+
+    <div class="notification is-info">
+      <h3 class="title is-3">members</h3>
+    </div>
+
+    <div class="form-content">
+      <ul class="list">
+      <% company.members.forEach(function(member) { %>
+        <li class="list-item"><%= member.email %></li>
+      <% }) %>
+    </ul>
+    </div>
+
+  </div>
+
+</div>

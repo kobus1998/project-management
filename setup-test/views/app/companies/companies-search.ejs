@@ -1,0 +1,41 @@
+<div style="flex: 1">
+
+  <% include ../../partials/sidebar %>
+
+  <div>
+    <div class="notification is-info">
+      <h3 class="title h3">Search company</h3>
+    </div>
+
+    <div class="form-content">
+      <form method="get">
+        <div class="field has-addons">
+          <p class="control full-width">
+            <input type="search" name="s" class="input" placeholder="search company"
+            <% if (typeof req.allParams()['s'] !== 'undefined' && req.allParams()['s'].length > 0) { %>
+              value="<%= req.allParams()['s'] %>"
+            <% } %>>
+          </p>
+          <p class="control">
+            <button type="submit" class="button is-light">
+              <i class="fa fa-search"></i>
+            </button>
+          </p>
+        </div>
+      </form>
+
+      <% if (typeof req.allParams()['s'] !== 'undefined' && req.allParams()['s'].length > 0) { %>
+        <ul class="list paddingTop">
+          <% search.forEach(function(searchRes) { %>
+            <li class="list-item"><a href="/company/view/<%= searchRes.id %>"><%= searchRes.name %></a></li>
+          <% }) %>
+        </ul>
+      <% } %>
+
+
+
+    </div>
+
+  </div>
+
+</div>

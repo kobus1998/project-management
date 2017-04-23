@@ -1,0 +1,56 @@
+
+<div class="center-content">
+
+  <div class="container">
+
+    <div class="columns">
+
+      <div class="column is-4">
+
+      </div>
+
+      <div class="column">
+
+        <form id="login" class="login" name="login" action="/auth/login" method="post">
+          <input type='hidden' name='_csrf' value='<%= _csrf %>'>
+
+          <h2 class="title is-1">Login</h2>
+
+          <div class="field">
+            <label for="email">email</label>
+            <p class="control has-icon">
+              <input class="input" type="email" name="email" required>
+              <span class="icon is-small"><i class="fa fa-user"></i></span>
+            </p>
+
+          </div>
+
+          <div class="field">
+            <label for="password">password</label>
+            <p class="control has-icon">
+              <input type="password" name="password" class="input" required>
+              <span class="icon is-small"><i class="fa fa-key"></i></span>
+            </p>
+          </div>
+
+          <div class="field is-grouped">
+            <p class="control">
+              <button class="button is-info" type="submit">login</button>
+            </p>
+            <p class="control">
+              <a href="/register" class="button">register</a>
+            </p>
+          </div>
+
+        </form>
+
+      </div>
+
+      <div class="column is-4">
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

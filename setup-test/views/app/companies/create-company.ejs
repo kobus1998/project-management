@@ -1,0 +1,51 @@
+<div style="flex: 1">
+
+  <% include ../../partials/sidebar %>
+
+  <div class="">
+
+    <div class="notification is-info">
+      <h3 class="title is-3">create company</h3>
+    </div>
+
+    <div class="form-content">
+      <form action="/companies/create/<%= req.session.userId %>" method="post">
+        <input type='hidden' name='_csrf' value='<%= _csrf %>'>
+
+        <div class="field">
+          <label for="name" class="label">company name</label>
+          <p class="control">
+            <input type="text" name="name" class="input">
+          </p>
+        </div>
+
+        <div class="field">
+          <label for="desc" class="label">description</label>
+          <p class="control">
+            <textarea name="desc" rows="8" cols="80" class="textarea"></textarea>
+          </p>
+        </div>
+
+        <div class="field">
+          <label for="privacy" class="label">privacy</label>
+          <p class="control">
+            <label class="radio">
+              <input type="radio" name="privacy" value="private" checked>
+              private
+            </label>
+            <label class="radio">
+              <input type="radio" name="privacy" value="public">
+              public
+            </label>
+          </p>
+        </div>
+
+        <button type="submit" class="button is-info">create</button>
+
+      </form>
+    </div>
+
+
+  </div>
+
+</div>

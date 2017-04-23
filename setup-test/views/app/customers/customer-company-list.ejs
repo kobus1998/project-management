@@ -1,0 +1,31 @@
+<div style="flex: 1">
+
+  <% include ../../partials/companySidebar %>
+
+  <div>
+
+    <div class="notification is-info">
+      <h3 class="title is-3">customers <a href="/customer/create/<%= company.id %>" class="button is-info is-pulled-right">new</a></h3>
+    </div>
+
+    <div class="form-content">
+
+      <% if (company.customers.length > 0) { %>
+        <ul class="list">
+          <% company.customers.forEach(function(customer) { %>
+            <li class="list-item">
+              <a href="/customer/view/<%= company.id %>/<%= customer.id %>"><%= customer.name %> <span class="paddingLeft"><%= customer.companyName %></span></a>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <div class="notification">
+          <p><i class="fa fa-cogs paddingRight"></i> you dont have customers yet</p>
+        </div>
+      <% } %>
+
+    </div>
+
+  </div>
+
+</div>

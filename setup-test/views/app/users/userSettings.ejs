@@ -1,0 +1,76 @@
+<div class="" style="flex: 1">
+
+  <% include ../../partials/sidebar %>
+
+  <div class=" paddingBottom">
+
+    <div class="notification is-info">
+      <h3 class="title is-3">Settings</h3>
+    </div>
+
+    <form class="settings" name="settings" action="/users/update/<%= user.id %>" method="post">
+      <input type='hidden' name='_csrf' value='<%= _csrf %>'>
+      <input type="hidden" name="_method" value="put">
+
+      <div class="field">
+        <label class="label" for="firstname">firstname</label>
+        <p class="control">
+          <input type="text" name="firstname" class="input" value="<%= user.firstname %>">
+        </p>
+      </div>
+
+      <div class="field">
+        <label class="label" for="lastname">lastname</label>
+        <p class="control">
+          <input type="text" name="lastname" class="input" value="<%= user.lastname %>">
+        </p>
+      </div>
+
+      <div class="field">
+        <label for="gender" class="label">gender</label>
+        <p class="control">
+          <label class="radio">
+            <input checked type="radio" name="gender" value="male" <% if (user.gender === 'male') { %> checked <% } %> >
+            male
+          </label>
+          <label class="radio">
+            <input type="radio" name="gender" value="female" <% if (user.gender === 'female') { %> checked <% } %> >
+            female
+          </label>
+        </p>
+      </div>
+
+      <div class="brk"></div>
+
+      <div class="field">
+        <label class="label" for="email">email</label>
+        <p class="control">
+          <input type="email" name="email" class="input" value="<%= user.email %>">
+        </p>
+      </div>
+
+      <button class="button is-info" type="submit">submit</button>
+
+    </form>
+    <div class="brk"></div>
+    <form class="settings paddingBottom" action="/user/upload" method="post" enctype="multipart/form-data">
+      <div class="field">
+        <label for="avatar" class="label">avatar</label>
+        <p class="control">
+          <input type="file" name="avatar" class="file">
+        </p>
+        <% if (user.avatar.length > 0) { %>
+          <img width="100" src="<%= user.avatar %>" alt="">
+        <% } %>
+      </div>
+      <div class="field">
+        <p class="control">
+          <button type="submit" class="button is-info">upload</button>
+        </p>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

@@ -1,0 +1,45 @@
+<div class="" style="flex: 1">
+
+  <% include ../../partials/sidebar %>
+
+  <div class=" paddingBottom">
+
+    <div class="notification is-info">
+      <h3 class="title is-3">Projects</h3>
+    </div>
+
+    <div class="form-content">
+      <form method="get">
+        <div class="field has-addons">
+          <p class="control full-width">
+            <input type="search" name="s" class="input" placeholder="search projects"
+            <% if (typeof req.allParams()['s'] !== 'undefined' && req.allParams()['s'].length > 0) { %>
+              value="<%= req.allParams()['s'] %>"
+            <% } %>>
+          </p>
+          <p class="control">
+            <button type="submit" class="button is-light">
+              <i class="fa fa-search"></i>
+            </button>
+          </p>
+        </div>
+      </form>
+
+      <% if (typeof req.allParams()['s'] !== 'undefined' && req.allParams()['s'].length > 0) { %>
+        <ul class="list paddingTop">
+          <% for (var i = 0; i < search.length; i++) { %>
+            <li class="list-item">
+              <a href="/project/view/<%= search[i].company %>/<%= search[i].customer %>/<%= search[i].id %>">
+                <%= search[i].name %>
+                <span class="is-pulled-right"><%= dateFormat(search[i].deadline, 'mmmm dd yyyy') %></span>
+              </a>
+            </li>
+
+          <% } %>
+        </ul>
+      <% } %>
+
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<div style="flex: 1">
+
+  <% include ../../partials/sidebar %>
+
+  <div>
+    <div class="notification is-info">
+      <h3 class="title h3">My companies</h3>
+    </div>
+
+    <div class="form-content">
+      <% if (user.companies.length > 0) { %>
+        <ul class="list">
+          <% for (var i = 0; i < user.companies.length; i++) { %>
+            <li class="list-item"><a href="/company/view/<%= user.companies[i].id %>"><%= user.companies[i].name %></a><span class="is-pulled-right">Since <%= dateFormat(user.companies[i].createdAt, 'dd-mm-yyyy') %></span></li>
+          <% } %>
+        </ul>
+      <% } %>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,154 @@
+<div style="flex: 1">
+
+  <% include ../../partials/companySidebar %>
+
+  <div>
+    <div class="notification is-info">
+      <h3 class="title is-3">settings</h3>
+      <% if (userTitle === 'manager') { %>
+      <div class="tabs">
+        <ul>
+          <li>
+            <a id="toggle-settings-tab">
+              <span class="icon is-small"><i class="fa fa-cog"></i></span>
+              <span>settings</span>
+            </a>
+          </li>
+          <li>
+            <a id="toggle-roles-tab">
+              <span class="icon is-small"><i class="fa fa-user"></i></span>
+              <span>users</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <% } %>
+    </div>
+
+
+
+    <div class="form-content">
+      <div class="" style="flex-grow: 1;">
+        <% if (userTitle === 'manager') { %>
+        <div id="settings-tab" class="tab-content tab-content-active">
+          <h4 class="title is-4">settings</h4>
+          <form action="/companies/update/<%= company.id %>" method="post">
+            <div class="field">
+              <label for="name" class="label">name</label>
+              <p class="control">
+                <input type="text" name="name" class="input" value="<%= company.name %>">
+              </p>
+            </div>
+            <div class="field">
+              <label for="desc" class="label">description</label>
+              <p class="control">
+                <textarea name="desc" rows="8" cols="80" class="textarea"><%= company.desc %></textarea>
+              </p>
+            </div>
+            <div class="field">
+              <label for="privacy" class="label">privacy</label>
+              <p class="control">
+                <label class="radio">
+                  <input type="radio" name="privacy" value="private" <% if(company.privacy === 'private') {%>checked<%} %>>
+                  private
+                </label>
+                <label class="radio">
+                  <input type="radio" name="privacy" value="public"<% if(company.privacy === 'public') {%>checked<%} %>>
+                  public
+                </label>
+              </p>
+            </div>
+            <div class="field">
+              <button type="submit" class="button is-info">edit</button>
+            </div>
+          </form>
+        </div>
+        <div id="roles-tab" class="tab-content">
+          <h4 class="title is-4">users <a href="/company/invite/<%= company.id %>" class="button is-info is-pulled-right">invite member</a></h4>
+          <% if (users.length > 0) { %>
+            <table class="table table-striped">
+              <thead>
+                <th>#</th>
+                <th>first</th>
+                <th>last</th>
+                <th>email</th>
+                <th>role</th>
+                <th></th>
+              </thead>
+              <tbody>
+              <% for (var i = 0; i < users.length; i++) { %>
+                <% if (users[i].members.id !== req.session.userId) { %>
+
+                  <tr>
+                    <td><%= i %></td>
+                    <td><%= users[i].members.firstname %></td>
+                    <td><%= users[i].members.lastname %></td>
+                    <td><%= users[i].members.email %></td>
+                    <% if (users[i].title !== 'manager') { %>
+                      <td>
+                        <form action="/companies/updaterole/<%= company.id %>/<%= users[i].members.id %>" method="post">
+                          <div class="field">
+                            <p class="control">
+                              <select name="title" class="select" onchange="this.form.submit()">
+                                <option value="manager" <% if (users[i].title === 'manager') { %> selected <% } %> >manager</option>
+                                <option value="project manager" <% if (users[i].title === 'project manager') { %> selected <% } %>>project manager</option>
+                                <option value="developer" <% if (users[i].title === 'developer') { %> selected <% } %>>developer</option>
+                                <option value="sales" <% if (users[i].title === 'sales') { %> selected <% } %>>sales</option>
+                                <option value="support" <% if (users[i].title === 'support') { %> selected <% } %>>support</option>
+                                <option value="member" <% if (users[i].title === 'member') { %> selected <% } %>>member</option>
+                              </select>
+                            </p>
+                          </div>
+                        </form>
+                      </td>
+
+                    <% } else { %>
+                      <td><%= users[i].title %></td>
+                    <% } %>
+                    <td>
+                      <form action="/companies/removeuser/<%= company.id %>/<%= users[i].members.id %>" method="post">
+                        <div class="field">
+                          <p class="control">
+                            <button type="submit" class="button is-danger">
+                              <span class="icon is-small">
+                                <i class="fa fa-sign-out"></i>
+                              </span>
+                              <span>kick</span>
+                            </button>
+                          </p>
+                        </div>
+                      </form>
+                    </td>
+                  </tr>
+
+                <% } %>
+
+              <% } %>
+              </tbody>
+            </table>
+          <% } else { %>
+
+          <% } %>
+        </div>
+        <% } else { %>
+          <form action="/companies/removeuser/<%= company.id %>/<%= req.session.userId %>" method="post">
+            <div class="field">
+              <p class="control">
+                <button type="submit" class="button is-danger">
+                <span class="icon is-small">
+                  <i class="fa fa-sign-out"></i>
+                </span>
+                <span>leave company</span>
+                </button>
+              </p>
+            </div>
+          </form>
+        <% } %>
+      </div>
+    </div>
+
+  </div>
+
+
+
+</div>
