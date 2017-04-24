@@ -146,6 +146,7 @@ module.exports.routes = {
   'POST /projects/update/:projectId' : 'ProjectsController.updateProject',
   // delete project function
   'DELETE /projects/delete/:projectId' : 'ProjectsController.deleteProject',
+
   // add user to project function
   'POST /projects/adduser/:projectId/:userId' : 'ProjectsController.addUserToProject',
 

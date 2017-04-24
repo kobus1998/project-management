@@ -110,6 +110,11 @@ module.exports.policies = {
       'isNotInProject'
     ],
 
+    'addUserToProject': [
+      'loggedIn',
+      'isNotInProject'
+    ],
+
     'deleteSoftware': [
       'loggedIn',
       'isNotInProject'

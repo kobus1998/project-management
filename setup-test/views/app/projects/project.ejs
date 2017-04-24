@@ -149,13 +149,7 @@
               </p>
             </div>
           </div>
-
-
-
         </form>
-
-
-
         <div class="brk"></div>
 
         <% if (project.todos.length > 0) { %>
@@ -228,6 +222,8 @@
         <% } %>
       </div>
 
+
+
       <% if (userTitle === 'manager' || userTitle === 'project manager') { %>
 
       <div id="settings-tab" class="tab-content">
@@ -275,8 +271,31 @@
               </form>
             </div>
 
+
+
             <div id="invite-users" class="settings-content">
-              invite users
+
+              <% if (company.members.length > 0) { %>
+                <ul class="list">
+                <% for(var i = 0; i < company.members.length; i++) { %>
+                  <% if (company.members[i].id !== req.session.userId) { %>
+                    <li style="display: flex;" class="list-item">
+                      <%= company.members[i].email %>
+                      <div style="flex-grow: 1; justify-content: flex-end">
+                        <form action="/projects/adduser/<%= project.id %>/<%= company.members[i].id %>" method="post">
+                          <button type="submit" class="button is-info is-pulled-right">invite</button>
+                        </form>
+                      </div>
+                    </li>
+                  <% } %>
+                <% } %>
+                </ul>
+              <% } else { %>
+                <div class="notification">
+                  <p><i class="fa fa-cogs paddingRight"></i> There are no users in this project</p>
+                </div>
+              <% } %>
+
             </div>
 
             <div id="project-settings" class="settings-content settings-content-active">

@@ -73,7 +73,7 @@ module.exports = {
 	addUserToProject: (req, res) => {
 		let projectId = req.params.projectId
 		let userId = req.params.userId
-		Projects.addUserToProject(projectId, userId, (err, result) => {
+		Projects.addUserToProject(projectId, userId, true, (err, result) => {
 			if (err) res.badRequest('failed to add user to project')
 			else {
 				res.ok('user has been added to the project')

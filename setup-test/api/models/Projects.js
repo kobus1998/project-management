@@ -129,7 +129,6 @@ module.exports = {
   },
 
   addUserToProject: (projectId, userId, active, callback) => {
-
     ProjectUsers.create({project: projectId, user: userId, active: active}).exec((err, result) => {
       callback(err, result)
     })
